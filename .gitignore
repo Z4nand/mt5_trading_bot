@@ -1,2 +1,30 @@
-.env
+# Byte-compiled файлы 
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+
+# Виртуальные окружения
 venv/
+env/
+ENV/
+
+# Логи
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+
+# Данные (кроме ML датасетов если нужно)
+data/raw/
+data/models/
+
+# Jupyter
+**/*.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db

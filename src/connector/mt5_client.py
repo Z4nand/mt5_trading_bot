@@ -32,7 +32,7 @@ class MT5Client:
             True если успешно подключился
         """
         if self._initialized:
-            logger.warnings('Уже подключен, пропускаем')
+            logger.warning('Already connected, skip')
             return True
         
         if mt5_creds is None:   # если не передали в словарь - берем из .env
@@ -40,12 +40,12 @@ class MT5Client:
             password = os.getenv("MT5_PASSWORD")
             server = os.getenv("MT5_SERVER")   
         else:
-            login = mt5_creds["MT5_LOGIN"]
-            password = mt5_creds["MT5_PASSWORD"]
-            server = mt5_creds["MT5_SERVER"]
+            login = mt5_creds["login"]
+            password = mt5_creds["password"]
+            server = mt5_creds["server"]
         
         if not all([login, password, server]): # если хоть одно пустое 
-            logger.error('Не заданы MT5 credentials...')
+            logger.error('Have 1 or more empty field MT5 credentials...')
             return False 
         
         # Инициализация MT5
@@ -63,13 +63,38 @@ class MT5Client:
         # Проверяем информацию о счёте
         self.account_info = mt5.account_info()
         if self.account_info is None:
-            logger.error(f"Не удалось получить info о счёте: {mt5.last_error()}")
+            logger.error(f"Eror, enabla to get account info: {mt5.last_error()}")
             mt5.shutdown()
             return False
         
         self._initialized = True
-        logger.info(f"Подключён к MT5: {self.account_info.login} @ {self.account_info.server}")
-        logger.info(f"Баланс: {self.account_info.balance} {self.account_info.currency}")
+        logger.info(f"Connected to MT5: {self.account_info.login} @ {self.account_info.server}")
+        logger.info(f"Balance: {self.account_info.balance} {self.account_info.currency}")
         return True
+    
+    def is_connected(self) -> bool:
+        """Проверка состояния соединения"""
+        return self._initialized and mt5.terminal_info() is not None
+    
+    def disconnect(self):
+        """Отключение"""
+        if self._initialized:
+            mt5.shutdown()
+            self.account_info = None
+            self._initialized = False
+            logger.info('Disconnected from MT5')
+
+    def get_account_info(self) -> Optional[Dict[str, Any]]:
+        if not self.account_info:
+            return None
+        
+        return {
+            "login" :self.account_info.login ,
+            "balance": self.account_info.balance ,
+            "equity": self.account_info.equity ,
+            "currency": self.account_info.currency
+        }
+
+
 
 
