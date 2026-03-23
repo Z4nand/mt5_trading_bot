@@ -1,4 +1,6 @@
 # mt5_trading_bot
+___
+new workspace 
 
 Планируемая архитектура:
 mt5_trading_bot/
