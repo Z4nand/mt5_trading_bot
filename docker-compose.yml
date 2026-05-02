@@ -1,0 +1,26 @@
+# mt5_trading_bot/docker-compose.yml
+
+services:
+  pytorch-gpu:
+    build: 
+      context: .
+      dockerfile: Dockerfile.pytorch
+    container_name: gpu-training
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PYTHONPATH=/workspace
+    volumes:
+      - .:/workspace
+
+    ports:
+      - "8888:8888"
+    stdin_open: true
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

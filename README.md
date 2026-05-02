@@ -66,9 +66,9 @@ mt5_trading_bot/
 │   ├── download_history.py   # скрипт выгрузки истории для обучения
 │   └── backtest.py           # оффлайн-бэктест на исторических данных
 │
-└── main.py                   # точка входа: запуск торгового цикла
-
-
+├── main.py                   # точка входа: запуск торгового цикла
+│
+└──venv/
 
 
 
@@ -79,3 +79,30 @@ strategy/	Преобразование предсказаний в торгов�
 utils/	Логирование, конфиги, хелперы
 
 python -m tests.test_connect
+
+
+
+
+
+
+## WSL
+$ mkdir -p /home/zanand/projects/mt5_trading_bot
+$ cd /home/zanand/projects/mt5_trading_bot
+
+rsync -av --progress \
+  --exclude='venv' \
+  --exclude='__pycache__' \
+  --exclude='*.db' \
+  --exclude='*.sqlite' \
+  /mnt/c/Projects/mt5_trading_bot/ ./
+
+
+### сохранить requirements.txt
+pip freeze | grep -v "nvidia\|cuda\|torch\|triton\|pytorch" > requirements.txt
+
+
+
+### 
+1) Event detector: найти моменты, где вообще есть смысл торговать.
+2) Direction model: BUY / SELL.
+3) Confidence filter: если уверенность низкая → HOLD.

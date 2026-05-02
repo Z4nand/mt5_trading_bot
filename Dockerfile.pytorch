@@ -1,0 +1,24 @@
+FROM pytorch/pytorch:2.11.0-cuda12.8-cudnn9-devel
+
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+
+# Игнорируем защиту PEP 668
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir --break-system-packages -r /tmp/requirements.txt
+
+RUN pip install --no-cache-dir --break-system-packages \
+    jupyter \
+    ipykernel \
+    pandas \
+    numpy \
+    matplotlib \
+    seaborn \
+    scikit-learn \
+    pyyaml \
+    python-dotenv \
+    ta
+
+RUN python -m ipykernel install --user --name pytorch-gpu --display-name "PyTorch GPU"
+WORKDIR /workspace
+EXPOSE 8888
+CMD ["bash"]
