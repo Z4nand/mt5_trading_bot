@@ -1,3 +1,6 @@
+def main() -> None:
+    print("Use `streamlit run app.py` for the UI or `python scripts/backtest.py` for experiments.")
 
 
-#TODO логирование
+if __name__ == "__main__":
+    main()

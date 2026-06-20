@@ -1,18 +1,19 @@
-# Byte-compiled файлы 
+# Byte-compiled files
 __pycache__/
 *.py[cod]
 *$py.class
 *.pyc
 *.pyo
+.pytest_cache/
 
-# Виртуальные окружения
+# Virtual environments
 venv/
 .env/
 ENV/
 .env
+.venv/
 
-
-# Логи
+# Logs
 *.log
 logs/
 
@@ -20,12 +21,25 @@ logs/
 .vscode/
 .idea/
 
-# Данные (кроме ML датасетов если нужно)
+# Local user/runtime settings
+config/user_settings/settings.json
+
+# Local data and model artifacts
 data/raw/
+data/processed/
+data/economic_calendar/
 data/models/
 
 # Jupyter
 **/*.ipynb_checkpoints
+notebooks/archive/
+
+# Diploma/article export artifacts
+Pictures/
+ДИПЛОМ/
+СТАТЬЯ/
+*.pptx
+*.docx
 
 # OS
 .DS_Store

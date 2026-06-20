@@ -1,0 +1,20 @@
+project:
+  name: mt5_trading_bot
+  instrument: EURUSD
+
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  models_dir: data/models
+
+model:
+  type: gru
+  sequence_length: 96
+  confidence_threshold: 0.55
+  label_threshold: 0.0005
+  horizon_candles: 8
+
+risk:
+  risk_per_trade: 1.0
+  tp_threshold: 0.0008
+  sl_threshold: 0.0008
